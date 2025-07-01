@@ -465,22 +465,38 @@ export default function CalendarView() {
             </CardHeader>
             <CardContent>
               {/* Legend */}
-              <div className="flex items-center space-x-4 mb-6 text-xs">
+              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-2 mb-6 text-xs">
                 <div className="flex items-center space-x-1">
-                  <div className="w-3 h-3 bg-green-100 border border-green-200 rounded"></div>
+                  <div className="w-3 h-3 bg-green-100 border-l-2 border-green-500 rounded"></div>
                   <span>Check-in</span>
                 </div>
                 <div className="flex items-center space-x-1">
-                  <div className="w-3 h-3 bg-gray-100 border border-gray-200 rounded"></div>
+                  <div className="w-3 h-3 bg-red-100 border-l-2 border-red-500 rounded"></div>
                   <span>Check-out</span>
                 </div>
                 <div className="flex items-center space-x-1">
-                  <div className="w-3 h-3 bg-blue-100 border border-blue-200 rounded"></div>
+                  <div className="w-3 h-3 bg-blue-100 border-l-2 border-blue-500 rounded"></div>
+                  <span>Ocupada</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <div className="w-3 h-3 bg-green-200 border border-green-300 rounded"></div>
+                  <span>En hotel</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <div className="w-3 h-3 bg-blue-200 border border-blue-300 rounded"></div>
                   <span>Confirmada</span>
                 </div>
                 <div className="flex items-center space-x-1">
-                  <div className="w-3 h-3 bg-yellow-100 border border-yellow-200 rounded"></div>
+                  <div className="w-3 h-3 bg-yellow-200 border border-yellow-300 rounded"></div>
                   <span>Pendiente</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <span className="text-green-600 font-bold">→</span>
+                  <span>Llegada</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <span className="text-red-600 font-bold">←</span>
+                  <span>Salida</span>
                 </div>
               </div>
 
@@ -672,7 +688,7 @@ export default function CalendarView() {
           </Card>
 
           {/* Summary Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
             <Card>
               <CardContent className="p-4">
                 <div className="flex items-center space-x-2">
@@ -706,7 +722,7 @@ export default function CalendarView() {
                 <div className="flex items-center space-x-2">
                   <Calendar className="h-5 w-5 text-blue-600" />
                   <div>
-                    <p className="text-sm font-medium">Reservas Activas</p>
+                    <p className="text-sm font-medium">En Hotel</p>
                     <p className="text-2xl font-bold">
                       {
                         reservations.filter((r) => r.status === "checkedIn")
@@ -729,6 +745,32 @@ export default function CalendarView() {
                         reservations.filter((r) => r.status === "pending")
                           .length
                       }
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center space-x-2">
+                  <BarChart3 className="h-5 w-5 text-purple-600" />
+                  <div>
+                    <p className="text-sm font-medium">Total Reservas</p>
+                    <p className="text-2xl font-bold">{reservations.length}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center space-x-2">
+                  <Users className="h-5 w-5 text-cyan-600" />
+                  <div>
+                    <p className="text-sm font-medium">Huéspedes Total</p>
+                    <p className="text-2xl font-bold">
+                      {reservations.reduce((sum, r) => sum + r.guestCount, 0)}
                     </p>
                   </div>
                 </div>
