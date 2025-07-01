@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Navigation } from "@/components/Navigation";
-import { HotelVisualization } from "@/components/HotelVisualization";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -18,7 +17,6 @@ import {
   Users,
   Bed,
   Wifi,
-  Car,
   Coffee,
   Tv,
   Bath,
@@ -73,6 +71,13 @@ const amenityIcons = {
   Balcón: Eye,
   "Aire acondicionado": Wind,
   "Sofá cama": Bed,
+};
+
+const statusColors = {
+  available: "bg-green-500",
+  occupied: "bg-red-500",
+  checkout: "bg-orange-500",
+  maintenance: "bg-gray-500",
 };
 
 export default function HotelView() {
@@ -329,6 +334,19 @@ export default function HotelView() {
     maintenance: rooms.filter((r) => r.status === "maintenance").length,
   };
 
+  const getRoomTypeIcon = (type: string) => {
+    switch (type) {
+      case "suite":
+        return "🏛️";
+      case "familiar":
+        return "🏨";
+      case "doble":
+        return "🏡";
+      default:
+        return "🏠";
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -339,10 +357,10 @@ export default function HotelView() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-foreground">
-                Vista 3D del Hotel
+                Vista del Hotel
               </h1>
               <p className="text-muted-foreground">
-                Visualización interactiva de habitaciones y ocupación
+                Visualización de habitaciones y ocupación por piso
               </p>
             </div>
             <div className="flex items-center space-x-3">
@@ -418,23 +436,108 @@ export default function HotelView() {
             </Card>
           </div>
 
-          {/* Main Content */}
+          {/* Hotel Layout */}
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
-            {/* 3D Visualization */}
+            {/* Hotel Visualization */}
             <div className="xl:col-span-3">
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Building className="h-5 w-5" />
-                    <span>Visualización 3D</span>
+                    <span>Distribución del Hotel</span>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="p-0">
-                  <div className="h-96 lg:h-[600px]">
-                    <HotelVisualization
-                      rooms={filteredRooms}
-                      onRoomSelect={setSelectedRoom}
-                    />
+                <CardContent>
+                  <div className="space-y-8">
+                    {floors
+                      .slice()
+                      .reverse()
+                      .map((floor) => {
+                        const floorRooms = filteredRooms.filter(
+                          (room) => room.floor === floor,
+                        );
+                        return (
+                          <div key={floor} className="space-y-4">
+                            <div className="flex items-center space-x-3">
+                              <h3 className="text-lg font-semibold">
+                                Piso {floor}
+                              </h3>
+                              <Badge variant="outline">
+                                {floorRooms.length} habitaciones
+                              </Badge>
+                            </div>
+                            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3">
+                              {floorRooms.map((room) => (
+                                <div
+                                  key={room.id}
+                                  className={`relative p-3 rounded-lg border-2 cursor-pointer transition-all hover:scale-105 hover:shadow-md ${
+                                    selectedRoom?.id === room.id
+                                      ? "border-primary bg-primary/10"
+                                      : "border-gray-200 hover:border-gray-300"
+                                  }`}
+                                  onClick={() => setSelectedRoom(room)}
+                                >
+                                  <div className="text-center space-y-1">
+                                    <div className="text-2xl">
+                                      {getRoomTypeIcon(room.type)}
+                                    </div>
+                                    <div className="font-semibold text-sm">
+                                      {room.number}
+                                    </div>
+                                    <div
+                                      className={`w-full h-2 rounded-full ${
+                                        statusColors[room.status]
+                                      }`}
+                                    />
+                                    {room.guest && (
+                                      <div className="text-xs text-muted-foreground truncate">
+                                        {room.guest.name.split(" ")[0]}
+                                      </div>
+                                    )}
+                                    {room.type === "suite" && (
+                                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full"></div>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+
+                  {/* Legend */}
+                  <div className="mt-8 p-4 bg-muted rounded-lg">
+                    <h4 className="font-semibold mb-3">Leyenda</h4>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-4 h-4 bg-green-500 rounded"></div>
+                        <span className="text-sm">Disponible</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-4 h-4 bg-red-500 rounded"></div>
+                        <span className="text-sm">Ocupada</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-4 h-4 bg-orange-500 rounded"></div>
+                        <span className="text-sm">Check-out</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-4 h-4 bg-gray-500 rounded"></div>
+                        <span className="text-sm">Mantenimiento</span>
+                      </div>
+                    </div>
+                    <div className="mt-3 pt-3 border-t border-gray-200">
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                        <div>🏠 Simple</div>
+                        <div>🏡 Doble</div>
+                        <div>🏨 Familiar</div>
+                        <div>🏛️ Suite</div>
+                      </div>
+                      <div className="mt-2 text-xs text-muted-foreground">
+                        🟡 = Suite Premium con comodidades exclusivas
+                      </div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -503,17 +606,17 @@ export default function HotelView() {
 
                     <div className="space-y-2">
                       <h4 className="font-semibold">Comodidades</h4>
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="grid grid-cols-1 gap-2">
                         {amenitiesData[selectedRoom.type].map((amenity) => {
                           const IconComponent =
                             amenityIcons[amenity as keyof typeof amenityIcons];
                           return (
                             <div
                               key={amenity}
-                              className="flex items-center space-x-2 text-xs"
+                              className="flex items-center space-x-2 text-sm"
                             >
                               {IconComponent && (
-                                <IconComponent className="h-3 w-3" />
+                                <IconComponent className="h-4 w-4" />
                               )}
                               <span>{amenity}</span>
                             </div>
@@ -544,35 +647,34 @@ export default function HotelView() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground text-sm">
-                      Haz clic en cualquier habitación en la vista 3D para ver
-                      información detallada, estado de ocupación y comodidades
-                      disponibles.
+                      Haz clic en cualquier habitación para ver información
+                      detallada, estado de ocupación y comodidades disponibles.
                     </p>
                   </CardContent>
                 </Card>
               )}
 
-              {/* Controls Info */}
+              {/* View Info */}
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Eye className="h-5 w-5" />
-                    <span>Controles</span>
+                    <span>Vista del Hotel</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2 text-sm">
                     <div>
-                      🖱️ <strong>Rotar:</strong> Clic y arrastra
+                      📱 <strong>Interactiva:</strong> Clic para detalles
                     </div>
                     <div>
-                      🔍 <strong>Zoom:</strong> Rueda del ratón
+                      🏢 <strong>Por pisos:</strong> Organización vertical
                     </div>
                     <div>
-                      📱 <strong>Mover:</strong> Clic derecho y arrastra
+                      🎨 <strong>Colores:</strong> Estado visual inmediato
                     </div>
                     <div>
-                      👆 <strong>Seleccionar:</strong> Clic en habitación
+                      🔍 <strong>Filtros:</strong> Por estado y piso
                     </div>
                   </div>
                 </CardContent>
