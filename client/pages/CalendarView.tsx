@@ -69,17 +69,18 @@ export default function CalendarView() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedView, setSelectedView] = useState("month");
 
-  // Mock reservations data
+  // Mock reservations data - comprehensive calendar data
   const [reservations] = useState<Reservation[]>([
+    // Week 1 (Jan 1-7)
     {
       id: "1",
       guestName: "Carlos Mendez",
       roomNumber: "101",
       roomType: "simple",
-      checkIn: new Date(2024, 0, 15), // Jan 15
-      checkOut: new Date(2024, 0, 18), // Jan 18
+      checkIn: new Date(2024, 0, 2),
+      checkOut: new Date(2024, 0, 5),
       guestCount: 1,
-      status: "checkedIn",
+      status: "checkedOut",
       braceletCode: "BR001",
       checkInTime: "15:00",
       checkOutTime: "11:00",
@@ -89,8 +90,8 @@ export default function CalendarView() {
       guestName: "Ana Rodriguez",
       roomNumber: "102",
       roomType: "doble",
-      checkIn: new Date(2024, 0, 14), // Jan 14
-      checkOut: new Date(2024, 0, 17), // Jan 17
+      checkIn: new Date(2024, 0, 1),
+      checkOut: new Date(2024, 0, 4),
       guestCount: 2,
       status: "checkedOut",
       braceletCode: "BR002",
@@ -102,10 +103,10 @@ export default function CalendarView() {
       guestName: "Maria Garcia",
       roomNumber: "201",
       roomType: "suite",
-      checkIn: new Date(2024, 0, 20), // Jan 20
-      checkOut: new Date(2024, 0, 25), // Jan 25
+      checkIn: new Date(2024, 0, 3),
+      checkOut: new Date(2024, 0, 8),
       guestCount: 2,
-      status: "confirmed",
+      status: "checkedOut",
       braceletCode: "BR003",
       checkInTime: "16:00",
       checkOutTime: "12:00",
@@ -115,26 +116,231 @@ export default function CalendarView() {
       guestName: "Luis Martinez",
       roomNumber: "105",
       roomType: "familiar",
-      checkIn: new Date(2024, 0, 22), // Jan 22
-      checkOut: new Date(2024, 0, 26), // Jan 26
+      checkIn: new Date(2024, 0, 5),
+      checkOut: new Date(2024, 0, 9),
       guestCount: 4,
-      status: "confirmed",
+      status: "checkedOut",
       braceletCode: "BR004",
       checkInTime: "15:30",
       checkOutTime: "11:30",
     },
+
+    // Week 2 (Jan 8-14)
     {
       id: "5",
       guestName: "Isabella Torres",
       roomNumber: "301",
       roomType: "suite",
-      checkIn: new Date(2024, 0, 25), // Jan 25
-      checkOut: new Date(2024, 0, 30), // Jan 30
+      checkIn: new Date(2024, 0, 8),
+      checkOut: new Date(2024, 0, 12),
       guestCount: 2,
-      status: "pending",
+      status: "checkedOut",
       braceletCode: "BR005",
       checkInTime: "14:30",
       checkOutTime: "11:00",
+    },
+    {
+      id: "6",
+      guestName: "Pedro Silva",
+      roomNumber: "103",
+      roomType: "simple",
+      checkIn: new Date(2024, 0, 10),
+      checkOut: new Date(2024, 0, 13),
+      guestCount: 1,
+      status: "checkedOut",
+      braceletCode: "BR006",
+      checkInTime: "16:30",
+      checkOutTime: "10:00",
+    },
+    {
+      id: "7",
+      guestName: "Carmen Ruiz",
+      roomNumber: "202",
+      roomType: "doble",
+      checkIn: new Date(2024, 0, 12),
+      checkOut: new Date(2024, 0, 16),
+      guestCount: 2,
+      status: "checkedOut",
+      braceletCode: "BR007",
+      checkInTime: "15:00",
+      checkOutTime: "11:30",
+    },
+
+    // Week 3 (Jan 15-21) - Current reservations
+    {
+      id: "8",
+      guestName: "Roberto Diaz",
+      roomNumber: "104",
+      roomType: "doble",
+      checkIn: new Date(2024, 0, 15),
+      checkOut: new Date(2024, 0, 18),
+      guestCount: 2,
+      status: "checkedIn",
+      braceletCode: "BR008",
+      checkInTime: "14:00",
+      checkOutTime: "11:00",
+    },
+    {
+      id: "9",
+      guestName: "Sofia Morales",
+      roomNumber: "203",
+      roomType: "suite",
+      checkIn: new Date(2024, 0, 16),
+      checkOut: new Date(2024, 0, 21),
+      guestCount: 3,
+      status: "checkedIn",
+      braceletCode: "BR009",
+      checkInTime: "15:30",
+      checkOutTime: "12:00",
+    },
+    {
+      id: "10",
+      guestName: "Alejandro Vega",
+      roomNumber: "106",
+      roomType: "familiar",
+      checkIn: new Date(2024, 0, 17),
+      checkOut: new Date(2024, 0, 20),
+      guestCount: 4,
+      status: "checkedIn",
+      braceletCode: "BR010",
+      checkInTime: "16:00",
+      checkOutTime: "11:30",
+    },
+    {
+      id: "11",
+      guestName: "Patricia Luna",
+      roomNumber: "302",
+      roomType: "suite",
+      checkIn: new Date(2024, 0, 18),
+      checkOut: new Date(2024, 0, 22),
+      guestCount: 2,
+      status: "checkedIn",
+      braceletCode: "BR011",
+      checkInTime: "14:30",
+      checkOutTime: "11:00",
+    },
+
+    // Week 4 (Jan 22-28) - Mix of current and future
+    {
+      id: "12",
+      guestName: "Fernando Castro",
+      roomNumber: "107",
+      roomType: "simple",
+      checkIn: new Date(2024, 0, 22),
+      checkOut: new Date(2024, 0, 25),
+      guestCount: 1,
+      status: "confirmed",
+      braceletCode: "BR012",
+      checkInTime: "15:00",
+      checkOutTime: "10:30",
+    },
+    {
+      id: "13",
+      guestName: "Valentina Herrera",
+      roomNumber: "204",
+      roomType: "doble",
+      checkIn: new Date(2024, 0, 23),
+      checkOut: new Date(2024, 0, 27),
+      guestCount: 2,
+      status: "confirmed",
+      braceletCode: "BR013",
+      checkInTime: "16:30",
+      checkOutTime: "11:00",
+    },
+    {
+      id: "14",
+      guestName: "Familia Gonzalez",
+      roomNumber: "108",
+      roomType: "familiar",
+      checkIn: new Date(2024, 0, 24),
+      checkOut: new Date(2024, 0, 29),
+      guestCount: 5,
+      status: "confirmed",
+      braceletCode: "BR014",
+      checkInTime: "15:30",
+      checkOutTime: "12:00",
+    },
+    {
+      id: "15",
+      guestName: "Miguel Torres",
+      roomNumber: "303",
+      roomType: "suite",
+      checkIn: new Date(2024, 0, 26),
+      checkOut: new Date(2024, 0, 31),
+      guestCount: 2,
+      status: "confirmed",
+      braceletCode: "BR015",
+      checkInTime: "14:00",
+      checkOutTime: "11:30",
+    },
+
+    // Week 5 (Jan 29-31) - Future reservations
+    {
+      id: "16",
+      guestName: "Andrea Castillo",
+      roomNumber: "109",
+      roomType: "simple",
+      checkIn: new Date(2024, 0, 29),
+      checkOut: new Date(2024, 1, 2), // Feb 2
+      guestCount: 1,
+      status: "confirmed",
+      braceletCode: "BR016",
+      checkInTime: "15:00",
+      checkOutTime: "10:00",
+    },
+    {
+      id: "17",
+      guestName: "Diego Ramirez",
+      roomNumber: "205",
+      roomType: "doble",
+      checkIn: new Date(2024, 0, 30),
+      checkOut: new Date(2024, 1, 3), // Feb 3
+      guestCount: 2,
+      status: "pending",
+      braceletCode: "BR017",
+      checkInTime: "16:00",
+      checkOutTime: "11:00",
+    },
+
+    // Some overlapping reservations for realistic density
+    {
+      id: "18",
+      guestName: "Elena Rodriguez",
+      roomNumber: "110",
+      roomType: "simple",
+      checkIn: new Date(2024, 0, 19),
+      checkOut: new Date(2024, 0, 23),
+      guestCount: 1,
+      status: "checkedIn",
+      braceletCode: "BR018",
+      checkInTime: "15:00",
+      checkOutTime: "10:30",
+    },
+    {
+      id: "19",
+      guestName: "Gabriel Martinez",
+      roomNumber: "206",
+      roomType: "doble",
+      checkIn: new Date(2024, 0, 20),
+      checkOut: new Date(2024, 0, 24),
+      guestCount: 2,
+      status: "checkedIn",
+      braceletCode: "BR019",
+      checkInTime: "14:30",
+      checkOutTime: "11:30",
+    },
+    {
+      id: "20",
+      guestName: "Lucia Fernandez",
+      roomNumber: "304",
+      roomType: "suite",
+      checkIn: new Date(2024, 0, 21),
+      checkOut: new Date(2024, 0, 26),
+      guestCount: 3,
+      status: "checkedIn",
+      braceletCode: "BR020",
+      checkInTime: "16:30",
+      checkOutTime: "12:00",
     },
   ]);
 
@@ -302,19 +508,20 @@ export default function CalendarView() {
                   return (
                     <div
                       key={index}
-                      className={`min-h-32 p-2 border rounded-lg ${
+                      className={`min-h-40 p-1 border rounded-lg relative overflow-hidden ${
                         isToday(date)
-                          ? "bg-primary/5 border-primary"
+                          ? "bg-primary/5 border-primary shadow-sm"
                           : "border-border"
                       } ${
                         !isCurrentMonth(date) ? "bg-muted/30" : "bg-background"
                       }`}
                     >
-                      <div className="flex items-center justify-between mb-2">
+                      {/* Date Header */}
+                      <div className="flex items-center justify-between mb-1 sticky top-0 bg-inherit z-10">
                         <span
-                          className={`text-sm ${
+                          className={`text-sm font-medium ${
                             isToday(date)
-                              ? "font-bold text-primary"
+                              ? "font-bold text-primary bg-primary/10 px-2 py-1 rounded-full"
                               : isCurrentMonth(date)
                                 ? "text-foreground"
                                 : "text-muted-foreground"
@@ -327,62 +534,135 @@ export default function CalendarView() {
                             {checkIns.length > 0 && (
                               <Badge
                                 variant="secondary"
-                                className="text-xs px-1 py-0 bg-green-100 text-green-800"
+                                className="text-xs px-1 py-0 bg-green-100 text-green-800 border-green-200"
                               >
-                                In {checkIns.length}
+                                ↓{checkIns.length}
                               </Badge>
                             )}
                             {checkOuts.length > 0 && (
                               <Badge
                                 variant="secondary"
-                                className="text-xs px-1 py-0 bg-red-100 text-red-800"
+                                className="text-xs px-1 py-0 bg-red-100 text-red-800 border-red-200"
                               >
-                                Out {checkOuts.length}
+                                ↑{checkOuts.length}
                               </Badge>
                             )}
                           </div>
                         )}
                       </div>
 
-                      <div className="space-y-1">
-                        {dayReservations.slice(0, 3).map((reservation) => (
-                          <div
-                            key={reservation.id}
-                            className={`p-1 rounded text-xs border ${
-                              statusColors[reservation.status]
-                            }`}
-                          >
-                            <div className="flex items-center justify-between">
-                              <span className="font-medium truncate">
-                                {reservation.roomNumber}
-                              </span>
-                              <div className="flex items-center space-x-1">
-                                <Users className="h-3 w-3" />
-                                <span>{reservation.guestCount}</span>
-                              </div>
-                            </div>
-                            <div className="truncate">
-                              {reservation.guestName}
-                            </div>
-                            {(isSameDay(reservation.checkIn, date) ||
-                              isSameDay(reservation.checkOut, date)) && (
-                              <div className="flex items-center space-x-1 mt-1">
-                                <Clock className="h-3 w-3" />
-                                <span>
-                                  {isSameDay(reservation.checkIn, date)
-                                    ? reservation.checkInTime
-                                    : reservation.checkOutTime}
-                                </span>
-                              </div>
-                            )}
-                          </div>
-                        ))}
+                      {/* Reservations - Outlook Style */}
+                      <div className="space-y-0.5 overflow-y-auto max-h-32">
+                        {dayReservations
+                          .slice(0, 5)
+                          .map((reservation, resIndex) => {
+                            const isCheckInDay = isSameDay(
+                              reservation.checkIn,
+                              date,
+                            );
+                            const isCheckOutDay = isSameDay(
+                              reservation.checkOut,
+                              date,
+                            );
+                            const isOngoing = !isCheckInDay && !isCheckOutDay;
 
-                        {dayReservations.length > 3 && (
-                          <div className="text-xs text-muted-foreground text-center">
-                            +{dayReservations.length - 3} más
+                            return (
+                              <div
+                                key={reservation.id}
+                                className={`
+                                  relative p-1 rounded text-xs border-l-2
+                                  ${statusColors[reservation.status]}
+                                  ${isCheckInDay ? "border-l-green-500 bg-green-50" : ""}
+                                  ${isCheckOutDay ? "border-l-red-500 bg-red-50" : ""}
+                                  ${isOngoing ? "border-l-blue-500 bg-blue-50" : ""}
+                                  hover:shadow-sm transition-shadow cursor-pointer
+                                `}
+                                title={`${reservation.guestName} - ${reservation.roomNumber} (${reservation.guestCount} huéspedes)`}
+                              >
+                                {/* Time indicator */}
+                                {(isCheckInDay || isCheckOutDay) && (
+                                  <div className="absolute top-0 right-0 text-xs font-mono bg-white/80 px-1 rounded-bl">
+                                    {isCheckInDay
+                                      ? reservation.checkInTime
+                                      : reservation.checkOutTime}
+                                  </div>
+                                )}
+
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center space-x-1 min-w-0 flex-1">
+                                    <span className="font-medium text-xs truncate">
+                                      {reservation.roomNumber}
+                                    </span>
+                                    {isCheckInDay && (
+                                      <span className="text-green-600 font-bold">
+                                        →
+                                      </span>
+                                    )}
+                                    {isCheckOutDay && (
+                                      <span className="text-red-600 font-bold">
+                                        ←
+                                      </span>
+                                    )}
+                                    {isOngoing && (
+                                      <span className="text-blue-600">●</span>
+                                    )}
+                                  </div>
+                                  <div className="flex items-center space-x-1 flex-shrink-0">
+                                    <Users className="h-3 w-3" />
+                                    <span className="text-xs">
+                                      {reservation.guestCount}
+                                    </span>
+                                  </div>
+                                </div>
+
+                                <div className="truncate text-xs mt-0.5">
+                                  {reservation.guestName}
+                                </div>
+
+                                {/* Status indicator */}
+                                <div className="flex items-center justify-between mt-0.5">
+                                  <span
+                                    className={`text-xs px-1 rounded ${
+                                      reservation.status === "checkedIn"
+                                        ? "bg-green-200 text-green-800"
+                                        : reservation.status === "confirmed"
+                                          ? "bg-blue-200 text-blue-800"
+                                          : reservation.status === "pending"
+                                            ? "bg-yellow-200 text-yellow-800"
+                                            : "bg-gray-200 text-gray-800"
+                                    }`}
+                                  >
+                                    {reservation.status === "checkedIn"
+                                      ? "En hotel"
+                                      : reservation.status === "confirmed"
+                                        ? "Confirmada"
+                                        : reservation.status === "pending"
+                                          ? "Pendiente"
+                                          : "Completada"}
+                                  </span>
+
+                                  {(isCheckInDay || isCheckOutDay) && (
+                                    <div className="flex items-center space-x-1">
+                                      <Clock className="h-3 w-3" />
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          })}
+
+                        {dayReservations.length > 5 && (
+                          <div className="text-xs text-muted-foreground text-center bg-muted/50 rounded p-1">
+                            +{dayReservations.length - 5} más reservas
                           </div>
                         )}
+
+                        {dayReservations.length === 0 &&
+                          isCurrentMonth(date) && (
+                            <div className="text-xs text-muted-foreground text-center opacity-50 py-2">
+                              Sin reservas
+                            </div>
+                          )}
                       </div>
                     </div>
                   );
