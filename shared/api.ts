@@ -102,3 +102,16 @@ export interface GuestsResponse {
 export interface ChargesResponse {
   charges: Charge[];
 }
+
+export interface GuestScanResponse {
+  guest: Guest;
+  charges: Charge[];
+  credit: GuestCredit;
+  transactions: Transaction[];
+}
+
+export interface PaymentProcessResponse {
+  success: boolean;
+  transaction: Transaction;
+  message: string;
+}
