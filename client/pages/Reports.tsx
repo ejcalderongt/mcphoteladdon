@@ -30,7 +30,9 @@ import {
   Star,
   ShoppingCart,
   PieChart,
+  MapPin,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Reports() {
   const [selectedPeriod, setSelectedPeriod] = useState("month");
@@ -437,7 +439,7 @@ export default function Reports() {
               <CardTitle>Reportes Adicionales</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
                 <Button variant="outline" className="h-20 flex-col">
                   <Calendar className="h-6 w-6 mb-2" />
                   <span>Reporte Mensual</span>
@@ -454,6 +456,12 @@ export default function Reports() {
                   <BarChart3 className="h-6 w-6 mb-2" />
                   <span>Comparativo Anual</span>
                 </Button>
+                <Link to="/analisis-geografico">
+                  <Button variant="outline" className="h-20 flex-col w-full">
+                    <MapPin className="h-6 w-6 mb-2" />
+                    <span>Análisis Geográfico</span>
+                  </Button>
+                </Link>
               </div>
             </CardContent>
           </Card>
