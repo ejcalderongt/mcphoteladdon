@@ -6,8 +6,8 @@ import {
   Clock,
   User,
   MoreHorizontal,
-  CheckOut,
-  CheckIn,
+  LogOut,
+  LogIn,
 } from "lucide-react";
 
 interface Room {
@@ -140,7 +140,7 @@ export function RoomCalendar({ rooms }: RoomCalendarProps) {
                                     variant="outline"
                                     className="h-6 text-xs"
                                   >
-                                    <CheckOut className="h-3 w-3 mr-1" />
+                                    <LogOut className="h-3 w-3 mr-1" />
                                     Confirmar
                                   </Button>
                                 </div>
@@ -154,7 +154,7 @@ export function RoomCalendar({ rooms }: RoomCalendarProps) {
                               variant="outline"
                               className="w-full h-6 text-xs"
                             >
-                              <CheckIn className="h-3 w-3 mr-1" />
+                              <LogIn className="h-3 w-3 mr-1" />
                               Check-in
                             </Button>
                           )}
