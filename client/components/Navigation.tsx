@@ -8,11 +8,14 @@ import {
   Hotel,
   Users,
   Building,
+  LogOut,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 export function Navigation() {
   const location = useLocation();
+  const { logout, user } = useAuth();
 
   const navItems = [
     {
@@ -56,10 +59,10 @@ export function Navigation() {
               <Hotel className="h-8 w-8 text-primary" />
               <div>
                 <h1 className="text-lg font-bold text-foreground">
-                  HotelManager
+                  MCPHotelAddOn
                 </h1>
                 <p className="text-xs text-muted-foreground">
-                  Sistema de Gestión
+                  Sistema de Gestión Premium
                 </p>
               </div>
             </Link>
@@ -87,10 +90,18 @@ export function Navigation() {
 
           <div className="flex items-center space-x-4">
             <Badge variant="outline" className="hidden sm:inline-flex">
-              En línea
+              {user?.username}
             </Badge>
             <Button variant="ghost" size="sm">
               <Settings className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={logout}
+              className="text-destructive hover:text-destructive"
+            >
+              <LogOut className="h-4 w-4" />
             </Button>
           </div>
         </div>
