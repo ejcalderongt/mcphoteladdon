@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import { Separator } from "@/components/ui/separator";
 import {
   Dialog,
@@ -496,13 +496,20 @@ export default function Guests() {
                       <TableRow key={guest.id}>
                         <TableCell>
                           <div className="flex items-center space-x-3">
-                            <Avatar>
-                              <AvatarImage src={guest.profileImageUrl} />
-                              <AvatarFallback>
-                                {guest.firstName[0]}
-                                {guest.lastName.split(" ")[0][0]}
-                              </AvatarFallback>
-                            </Avatar>
+                            <div className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full bg-muted">
+                              {guest.profileImageUrl ? (
+                                <img
+                                  src={guest.profileImageUrl}
+                                  alt={guest.name}
+                                  className="aspect-square h-full w-full object-cover"
+                                />
+                              ) : (
+                                <div className="flex h-full w-full items-center justify-center rounded-full bg-primary text-primary-foreground text-sm font-medium">
+                                  {guest.firstName[0]}
+                                  {guest.lastName.split(" ")[0][0]}
+                                </div>
+                              )}
+                            </div>
                             <div>
                               <div className="font-medium">{guest.name}</div>
                               <div className="flex items-center space-x-2">
@@ -622,13 +629,20 @@ export default function Guests() {
             <div className="space-y-6">
               {/* Header */}
               <div className="flex items-start space-x-4">
-                <Avatar className="h-20 w-20">
-                  <AvatarImage src={selectedGuest.profileImageUrl} />
-                  <AvatarFallback className="text-lg">
-                    {selectedGuest.firstName[0]}
-                    {selectedGuest.lastName.split(" ")[0][0]}
-                  </AvatarFallback>
-                </Avatar>
+                <div className="relative flex h-20 w-20 shrink-0 overflow-hidden rounded-full bg-muted">
+                  {selectedGuest.profileImageUrl ? (
+                    <img
+                      src={selectedGuest.profileImageUrl}
+                      alt={selectedGuest.name}
+                      className="aspect-square h-full w-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center rounded-full bg-primary text-primary-foreground text-lg font-medium">
+                      {selectedGuest.firstName[0]}
+                      {selectedGuest.lastName.split(" ")[0][0]}
+                    </div>
+                  )}
+                </div>
                 <div className="flex-1">
                   <div className="flex items-center space-x-3">
                     <h2 className="text-2xl font-bold">{selectedGuest.name}</h2>
