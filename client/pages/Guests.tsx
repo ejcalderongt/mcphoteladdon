@@ -756,6 +756,33 @@ export default function Guests() {
                       </Label>
                       <div>{selectedGuest.nationality}</div>
                     </div>
+                    {selectedGuest.location && (
+                      <>
+                        <div>
+                          <Label className="text-sm text-muted-foreground">
+                            Departamento
+                          </Label>
+                          <div className="flex items-center space-x-2">
+                            <MapPin className="h-4 w-4 text-muted-foreground" />
+                            <span>{selectedGuest.location.department}</span>
+                          </div>
+                        </div>
+                        <div>
+                          <Label className="text-sm text-muted-foreground">
+                            Municipio
+                          </Label>
+                          <div>{selectedGuest.location.municipality}</div>
+                        </div>
+                        <div>
+                          <Label className="text-sm text-muted-foreground">
+                            Región
+                          </Label>
+                          <Badge variant="outline" className="capitalize">
+                            {selectedGuest.location.region}
+                          </Badge>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
 
