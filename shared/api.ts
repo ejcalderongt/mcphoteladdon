@@ -39,6 +39,25 @@ export interface Guest {
     phone: string;
     relationship: string;
   };
+  // Geographical data for Guatemala
+  location?: {
+    department: string; // Departamento de Guatemala
+    municipality: string; // Municipio
+    region:
+      | "metropolitana"
+      | "norte"
+      | "noreste"
+      | "este"
+      | "sureste"
+      | "sur"
+      | "suroeste"
+      | "oeste"
+      | "noroeste";
+    coordinates?: {
+      lat: number;
+      lng: number;
+    };
+  };
 }
 
 export interface Room {
