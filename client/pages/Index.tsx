@@ -192,6 +192,22 @@ export default function Dashboard() {
     // In a real app, this would fetch fresh data from the API
   };
 
+  const handleRoomUpdate = (roomId: string, updates: Partial<Room>) => {
+    setRooms((prevRooms) =>
+      prevRooms.map((room) =>
+        room.id === roomId ? { ...room, ...updates } : room,
+      ),
+    );
+
+    // Update stats when room status changes
+    if (updates.status === "occupied") {
+      setStats((prevStats) => ({
+        ...prevStats,
+        occupiedRooms: prevStats.occupiedRooms + 1,
+      }));
+    }
+  };
+
   const checkoutCount = rooms.filter(
     (room) => room.status === "checkout",
   ).length;
@@ -245,7 +261,7 @@ export default function Dashboard() {
           <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
             {/* Room Calendar */}
             <div className="xl:col-span-3">
-              <RoomCalendar rooms={rooms} />
+              <RoomCalendar rooms={rooms} onRoomUpdate={handleRoomUpdate} />
             </div>
 
             {/* Side Panel */}
