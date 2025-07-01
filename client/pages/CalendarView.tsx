@@ -18,6 +18,7 @@ import {
   Clock,
   Plus,
   MapPin,
+  BarChart3,
 } from "lucide-react";
 import {
   format,
