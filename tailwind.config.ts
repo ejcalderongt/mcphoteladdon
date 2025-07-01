@@ -57,6 +57,11 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        success: "hsl(var(--success))",
+        warning: "hsl(var(--warning))",
+        occupied: "hsl(var(--occupied))",
+        available: "hsl(var(--available))",
+        checkout: "hsl(var(--checkout))",
       },
       borderRadius: {
         lg: "var(--radius)",
