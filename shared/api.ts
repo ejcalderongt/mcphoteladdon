@@ -158,3 +158,46 @@ export interface PaymentProcessResponse {
   transaction: Transaction;
   message: string;
 }
+
+export interface SeasonalData {
+  season: "verano" | "invierno" | "transicion";
+  months: string[];
+  weatherPattern: "seco" | "lluvioso" | "mixto";
+  averageTemp: number;
+  rainfall: number;
+}
+
+export interface GuatemalaRegionData {
+  region: string;
+  departments: string[];
+  climate: "tropical" | "templado" | "frio";
+  touristAttractions: string[];
+  guestCount: number;
+  averageStay: number;
+  preferredSeason: string;
+}
+
+export interface HolidayData {
+  name: string;
+  date: string;
+  type: "nacional" | "religioso" | "cultural";
+  impact: "alto" | "medio" | "bajo";
+  guestIncrease: number; // percentage
+}
+
+export interface CorrelationAnalysis {
+  guestOrigins: GuatemalaRegionData[];
+  seasonalPatterns: SeasonalData[];
+  holidays: HolidayData[];
+  weatherCorrelations: {
+    region: string;
+    season: string;
+    guestVolume: number;
+    weatherScore: number;
+  }[];
+  insights: {
+    title: string;
+    description: string;
+    recommendation: string;
+  }[];
+}
