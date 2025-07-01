@@ -13,6 +13,7 @@ import {
   RefreshCw,
   QrCode,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import type { Room, DashboardStats } from "@shared/api";
 
 export default function Dashboard() {
@@ -272,18 +273,24 @@ export default function Dashboard() {
                   <CardTitle className="text-lg">Acciones Rápidas</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  <Button className="w-full justify-start" variant="outline">
-                    <QrCode className="h-4 w-4 mr-2" />
-                    Escanear Pulsera
-                  </Button>
-                  <Button className="w-full justify-start" variant="outline">
-                    <BarChart3 className="h-4 w-4 mr-2" />
-                    Ver Reportes
-                  </Button>
-                  <Button className="w-full justify-start" variant="outline">
-                    <TrendingUp className="h-4 w-4 mr-2" />
-                    Análisis de Ingresos
-                  </Button>
+                  <Link to="/scanner">
+                    <Button className="w-full justify-start" variant="outline">
+                      <QrCode className="h-4 w-4 mr-2" />
+                      Escanear Pulsera
+                    </Button>
+                  </Link>
+                  <Link to="/reportes">
+                    <Button className="w-full justify-start" variant="outline">
+                      <BarChart3 className="h-4 w-4 mr-2" />
+                      Ver Reportes
+                    </Button>
+                  </Link>
+                  <Link to="/dashboard">
+                    <Button className="w-full justify-start" variant="outline">
+                      <TrendingUp className="h-4 w-4 mr-2" />
+                      Análisis de Ingresos
+                    </Button>
+                  </Link>
                 </CardContent>
               </Card>
 
