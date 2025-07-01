@@ -15,6 +15,30 @@ export interface Guest {
   pendingCharges: number;
   credit?: GuestCredit;
   paymentMethods?: PaymentMethod[];
+  // New fields for enhanced guest management
+  firstName: string;
+  lastName: string;
+  dateOfBirth?: string;
+  anniversary?: string;
+  nationality?: string;
+  documentType?: "passport" | "id_card" | "driver_license";
+  documentNumber?: string;
+  documentImageUrl?: string;
+  profileImageUrl?: string;
+  rating: number; // 1-5 stars
+  totalVisits: number;
+  lastVisit?: string;
+  firstVisit: string;
+  isVip: boolean;
+  preferredRoomType?: "simple" | "doble" | "suite" | "familiar";
+  allergies?: string[];
+  specialRequests?: string[];
+  notes?: string;
+  emergencyContact?: {
+    name: string;
+    phone: string;
+    relationship: string;
+  };
 }
 
 export interface Room {
