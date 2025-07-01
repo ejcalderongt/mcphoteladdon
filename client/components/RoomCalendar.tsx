@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { BookingModal } from "@/components/BookingModal";
 import {
   Calendar,
   Clock,
@@ -8,6 +10,7 @@ import {
   MoreHorizontal,
   LogOut,
   LogIn,
+  Plus,
 } from "lucide-react";
 
 interface Room {
@@ -26,6 +29,7 @@ interface Room {
 
 interface RoomCalendarProps {
   rooms: Room[];
+  onRoomUpdate?: (roomId: string, updates: Partial<Room>) => void;
 }
 
 const roomTypeLabels = {
@@ -49,8 +53,12 @@ const statusLabels = {
   maintenance: "Mantenimiento",
 };
 
-export function RoomCalendar({ rooms }: RoomCalendarProps) {
+export function RoomCalendar({ rooms, onRoomUpdate }: RoomCalendarProps) {
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState<Room | undefined>();
+
   const floors = Array.from(new Set(rooms.map((room) => room.floor))).sort();
+  const availableRooms = rooms.filter((room) => room.status === "available");
 
   const today = new Date().toLocaleDateString("es-ES", {
     weekday: "long",
@@ -58,6 +66,37 @@ export function RoomCalendar({ rooms }: RoomCalendarProps) {
     month: "long",
     day: "numeric",
   });
+
+  const handleBookingCreate = (booking: any) => {
+    // In a real app, this would send the booking to the server
+    console.log("Nueva reservación creada:", booking);
+
+    // Update room status locally
+    if (onRoomUpdate && booking.room) {
+      onRoomUpdate(booking.room.id, {
+        status: "occupied",
+        guest: {
+          id: Date.now().toString(),
+          name: booking.guest.name,
+          email: booking.guest.email,
+          phone: booking.guest.phone,
+          braceletCode: booking.guest.braceletCode,
+          checkIn: booking.checkIn,
+          checkOut: booking.checkOut,
+          roomId: booking.room.id,
+          totalCharges: booking.total,
+          pendingCharges: 0,
+        },
+      });
+    }
+  };
+
+  const handleRoomClick = (room: Room) => {
+    if (room.status === "available") {
+      setSelectedRoom(room);
+      setIsBookingModalOpen(true);
+    }
+  };
 
   return (
     <Card>
@@ -70,19 +109,29 @@ export function RoomCalendar({ rooms }: RoomCalendarProps) {
             </CardTitle>
             <p className="text-sm text-muted-foreground capitalize">{today}</p>
           </div>
-          <div className="flex items-center space-x-2">
-            <div className="flex items-center space-x-1">
-              <div className="w-3 h-3 bg-available rounded-full"></div>
-              <span className="text-xs">Disponible</span>
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-1">
+                <div className="w-3 h-3 bg-available rounded-full"></div>
+                <span className="text-xs">Disponible</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <div className="w-3 h-3 bg-occupied rounded-full"></div>
+                <span className="text-xs">Ocupada</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <div className="w-3 h-3 bg-checkout rounded-full"></div>
+                <span className="text-xs">Check-out</span>
+              </div>
             </div>
-            <div className="flex items-center space-x-1">
-              <div className="w-3 h-3 bg-occupied rounded-full"></div>
-              <span className="text-xs">Ocupada</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <div className="w-3 h-3 bg-checkout rounded-full"></div>
-              <span className="text-xs">Check-out</span>
-            </div>
+            <Button
+              onClick={() => setIsBookingModalOpen(true)}
+              size="sm"
+              className="flex items-center space-x-2"
+            >
+              <Plus className="h-4 w-4" />
+              <span>Nueva Reserva</span>
+            </Button>
           </div>
         </div>
       </CardHeader>
@@ -99,7 +148,12 @@ export function RoomCalendar({ rooms }: RoomCalendarProps) {
                   .map((room) => (
                     <Card
                       key={room.id}
-                      className="hover:shadow-md transition-all cursor-pointer"
+                      className={`hover:shadow-md transition-all cursor-pointer ${
+                        room.status === "available"
+                          ? "hover:border-primary"
+                          : ""
+                      }`}
+                      onClick={() => handleRoomClick(room)}
                     >
                       <CardContent className="p-3">
                         <div className="space-y-2">
@@ -153,9 +207,13 @@ export function RoomCalendar({ rooms }: RoomCalendarProps) {
                               size="sm"
                               variant="outline"
                               className="w-full h-6 text-xs"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleRoomClick(room);
+                              }}
                             >
-                              <LogIn className="h-3 w-3 mr-1" />
-                              Check-in
+                              <Plus className="h-3 w-3 mr-1" />
+                              Reservar
                             </Button>
                           )}
                         </div>
@@ -167,6 +225,17 @@ export function RoomCalendar({ rooms }: RoomCalendarProps) {
           ))}
         </div>
       </CardContent>
+
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => {
+          setIsBookingModalOpen(false);
+          setSelectedRoom(undefined);
+        }}
+        availableRooms={availableRooms}
+        preselectedRoom={selectedRoom}
+        onBookingCreate={handleBookingCreate}
+      />
     </Card>
   );
 }
