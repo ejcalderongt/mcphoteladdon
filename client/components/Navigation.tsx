@@ -7,6 +7,7 @@ import {
   Settings,
   Hotel,
   Users,
+  Building,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -25,6 +26,12 @@ export function Navigation() {
       label: "Calendario",
       icon: Calendar,
       description: "Estado de habitaciones",
+    },
+    {
+      path: "/vista-hotel",
+      label: "Vista 3D",
+      icon: Building,
+      description: "Visualización del hotel",
     },
     {
       path: "/huespedes",
