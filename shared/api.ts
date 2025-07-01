@@ -33,6 +33,47 @@ export interface Charge {
   timestamp: string;
   isPaid: boolean;
   source: "pos" | "manual";
+  area:
+    | "restaurant"
+    | "bar"
+    | "spa"
+    | "roomservice"
+    | "laundry"
+    | "minibar"
+    | "other";
+  items?: {
+    name: string;
+    quantity: number;
+    unitPrice: number;
+  }[];
+}
+
+export interface GuestCredit {
+  guestId: string;
+  initialCredit: number;
+  usedCredit: number;
+  availableCredit: number;
+  lastUpdated: string;
+}
+
+export interface PaymentMethod {
+  id: string;
+  type: "credit_card" | "debit_card" | "cash";
+  last4?: string;
+  brand?: string;
+  expiryMonth?: number;
+  expiryYear?: number;
+}
+
+export interface Transaction {
+  id: string;
+  guestId: string;
+  charges: string[]; // Array of charge IDs
+  total: number;
+  status: "pending" | "processing" | "completed" | "failed";
+  paymentMethod: PaymentMethod;
+  timestamp: string;
+  gatewayTransactionId?: string;
 }
 
 export interface DashboardStats {
