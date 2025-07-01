@@ -13,6 +13,8 @@ export interface Guest {
   roomId: string;
   totalCharges: number;
   pendingCharges: number;
+  credit?: GuestCredit;
+  paymentMethods?: PaymentMethod[];
 }
 
 export interface Room {
